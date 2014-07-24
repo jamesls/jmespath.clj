@@ -6,20 +6,16 @@
 
 (def ^:private parser
   (insta/parser
-    "<expression>          = simple-expression | or-expression
-     <simple-expression>   = sub-expression | identifier | index-expression | multi-select-list | multi-select-hash
-     or-expression         = simple-expression (<'||'> simple-expression)+
-     identifier            = unquoted-string | quoted-string
-     multi-select-list     = <'['> expression (<','> expression)* <']'>
-     multi-select-hash     = <'{'> keyval-expr (<','> keyval-expr)* <'}'>
-     keyval-expr           = identifier <':'> expression
-     unquoted-string       = #'[A-Za-z]+[0-9A-Za-z_]*'
-     quoted-string         = <'\"'> #'(?:\\|\\\"|[^\"])*' <'\"'>
-     index-expression      = expression bracket-specifier | bracket-specifier
-     bracket-specifier     = <'['> number <']'>
-     number                = '-'* digit+
-     <digit>               = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
-     sub-expression        = simple-expression <'.'> (identifier | multi-select-list | multi-select-hash)"
+    "<expression>          = simple-expression | boolean-expression
+     <simple-expression>   = identifier | sub-expression
+     sub-expression        = simple-expression <'.'> identifier
+     <boolean-expression>  = or-expression | and-expression | not-expression
+     or-expression         = or-clause (<'||'> or-clause)+
+     or-clause             = simple-expression | and-expression | not-expression
+     and-expression        = simple-expression (<'&&'> simple-expression)+
+     identifier            = unquoted-string
+     not-expression        = <'!'> simple-expression
+     <unquoted-string>     = #'[A-Za-z]+[0-9A-Za-z_]*'"
     :auto-whitespace (insta/parser "whitespace = #'\\s+'")))
 
 (defn parse [exp]
