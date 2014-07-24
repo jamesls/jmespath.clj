@@ -28,3 +28,12 @@ Usage
 The official `JMESPath documentation <http://jmespath.readthedocs.org/en/latest/>`_
 includes a formal grammar, specification, as well as links to other JMESPath
 implementations.
+
+
+Notes
+-----
+
+Verifying the grammar is ambiguous can be done interactively in the REPL::
+
+    jmespath.core=> (use 'jmespath.core :reload)
+    jmespath.core=> (doseq [expr ["a" "a || b" "a && c" "!a || !b" "a || b && c" "a && b || c" "a.b" "a.b.c" "a.b || c.d" "a || !b.c" "!a.b.c.d"]] (println expr) (pprint (check expr)) (println ""))
