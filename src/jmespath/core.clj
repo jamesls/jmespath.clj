@@ -6,7 +6,9 @@
 
 (def ^:private parser
   (insta/parser
-    "<expression>          = sub-expression | identifier | index-expression | multi-select-list | multi-select-hash
+    "<expression>          = simple-expression | or-expression
+     <simple-expression>   = sub-expression | identifier | index-expression | multi-select-list | multi-select-hash
+     or-expression         = simple-expression (<'||'> simple-expression)+
      identifier            = unquoted-string | quoted-string
      multi-select-list     = <'['> expression (<','> expression)* <']'>
      multi-select-hash     = <'{'> keyval-expr (<','> keyval-expr)* <'}'>
@@ -16,8 +18,8 @@
      index-expression      = expression bracket-specifier | bracket-specifier
      bracket-specifier     = <'['> number <']'>
      number                = '-'* digit+
-     <digit>                 = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
-     sub-expression        = expression <'.'> (identifier | multi-select-list | multi-select-hash)"
+     <digit>               = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+     sub-expression        = simple-expression <'.'> (identifier | multi-select-list | multi-select-hash)"
     :auto-whitespace (insta/parser "whitespace = #'\\s+'")))
 
 (defn parse [exp]
