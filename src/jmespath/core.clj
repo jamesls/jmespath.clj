@@ -9,9 +9,11 @@
     "<expression>          = complex-expression | top-level-expression
      <top-level-expression>= pipe-expression
      <complex-expression>  = simple-expression | boolean-expression | multi-select-list | multi-select-hash
-     <simple-expression>   = identifier | sub-expression | index-expression
+     <simple-expression>   = identifier | sub-expression | index-expression | function-expression
+     function-expression   = identifier <'('> function-args <')'>
+     function-args         = expression | expression (<','> expression)*
      pipe-expression       = expression <'|'> complex-expression
-     sub-expression        = simple-expression <'.'> (identifier | multi-select-list | multi-select-hash)
+     sub-expression        = simple-expression <'.'> (identifier | multi-select-list | multi-select-hash | function-expression)
      index-expression      = [simple-expression] <'['> number <']'>
      multi-select-list     = <'['> expression (<','> expression)* <']'>
      multi-select-hash     = <'{'> keyval-expr (<','> keyval-expr)* <'}'>
