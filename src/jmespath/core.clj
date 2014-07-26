@@ -6,8 +6,11 @@
 
 (def ^:private parser
   (insta/parser
-    "<expression>          = simple-expression | boolean-expression | multi-select-list | multi-select-hash
+    "<expression>          = complex-expression | top-level-expression
+     <top-level-expression>= pipe-expression
+     <complex-expression>  = simple-expression | boolean-expression | multi-select-list | multi-select-hash
      <simple-expression>   = identifier | sub-expression | index-expression
+     pipe-expression       = expression <'|'> complex-expression
      sub-expression        = simple-expression <'.'> (identifier | multi-select-list | multi-select-hash)
      index-expression      = [simple-expression] <'['> number <']'>
      multi-select-list     = <'['> expression (<','> expression)* <']'>
