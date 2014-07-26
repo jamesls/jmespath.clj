@@ -6,15 +6,21 @@
 
 (def ^:private parser
   (insta/parser
-    "<expression>          = simple-expression | boolean-expression
-     <simple-expression>   = identifier | sub-expression
-     sub-expression        = simple-expression <'.'> identifier
+    "<expression>          = simple-expression | boolean-expression | multi-select-list | multi-select-hash
+     <simple-expression>   = identifier | sub-expression | index-expression
+     sub-expression        = simple-expression <'.'> (identifier | multi-select-list | multi-select-hash)
+     index-expression      = [simple-expression] <'['> number <']'>
+     multi-select-list     = <'['> expression (<','> expression)* <']'>
+     multi-select-hash     = <'{'> keyval-expr (<','> keyval-expr)* <'}'>
+     keyval-expr           = identifier <':'> expression
      <boolean-expression>  = or-expression | and-expression | not-expression
      or-expression         = or-clause (<'||'> or-clause)+
      or-clause             = simple-expression | and-expression | not-expression
      and-expression        = simple-expression (<'&&'> simple-expression)+
      identifier            = unquoted-string
      not-expression        = <'!'> simple-expression
+     number                = '-'* digit+
+     <digit>               = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
      <unquoted-string>     = #'[A-Za-z]+[0-9A-Za-z_]*'"
     :auto-whitespace (insta/parser "whitespace = #'\\s+'")))
 
