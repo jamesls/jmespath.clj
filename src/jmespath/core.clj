@@ -6,10 +6,11 @@
 
 (def ^:private parser
   (insta/parser
-    "<expression>          = complex-expression | top-level-expression
+    "<expression>          = complex-expression | top-level-expression | current-node
      <top-level-expression>= pipe-expression
      <complex-expression>  = simple-expression | boolean-expression | multi-select-list | multi-select-hash
      <simple-expression>   = identifier | sub-expression | index-expression | function-expression
+     current-node          = <'@'>
      function-expression   = identifier <'('> function-args <')'>
      function-args         = expression | expression (<','> expression)*
      pipe-expression       = expression <'|'> complex-expression
